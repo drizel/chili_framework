@@ -44,6 +44,9 @@ private:
 	int cursorX = 400;
 	int cursorY = 300;
 
+	int targetX = 400;
+	int targetY = 300;
+
 	int cursorVelocityX = 0;
 	int cursorVelocityY = 0;
 	int cursorMaxVelocity = 5;
@@ -63,4 +66,5 @@ private:
 
 	void MoveCursor();
 	void DrawCursor();
+	void DrawTarget();
 };

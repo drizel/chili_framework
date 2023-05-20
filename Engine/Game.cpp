@@ -74,9 +74,14 @@ void Game::MoveCursor()
 	cursorX += cursorVelocityX;
 	cursorY += cursorVelocityY;
 
-	switchCursor = wnd.kbd.KeyIsPressed(VK_CONTROL);
-	switchCursorColor = wnd.kbd.KeyIsPressed(VK_SHIFT);
-	
+	if ((cursorX > targetX - 5 ) && (cursorX < targetX + 5))
+	{
+		if ((cursorY > targetY - 5) && (cursorY < targetY + 5))
+		{
+			switchCursorColor = true;
+		}
+	}
+	else { switchCursorColor = false; }	
 }
 
 void Game::DrawCursor()
@@ -93,41 +98,40 @@ void Game::DrawCursor()
 		cursorColorB = 255;
 		cursorColorG = 255;
 	}
+	
+	gfx.PutPixel(cursorX - 5, cursorY, cursorColorR, cursorColorG, cursorColorB);
+	gfx.PutPixel(cursorX - 4, cursorY, cursorColorR, cursorColorG, cursorColorB);
+	gfx.PutPixel(cursorX - 3, cursorY, cursorColorR, cursorColorG, cursorColorB);
+	gfx.PutPixel(cursorX + 5, cursorY, cursorColorR, cursorColorG, cursorColorB);
+	gfx.PutPixel(cursorX + 4, cursorY, cursorColorR, cursorColorG, cursorColorB);
+	gfx.PutPixel(cursorX + 3, cursorY, cursorColorR, cursorColorG, cursorColorB);
+	gfx.PutPixel(cursorX, cursorY - 5, cursorColorR, cursorColorG, cursorColorB);
+	gfx.PutPixel(cursorX, cursorY - 4, cursorColorR, cursorColorG, cursorColorB);
+	gfx.PutPixel(cursorX, cursorY - 3, cursorColorR, cursorColorG, cursorColorB);
+	gfx.PutPixel(cursorX, cursorY + 5, cursorColorR, cursorColorG, cursorColorB);
+	gfx.PutPixel(cursorX, cursorY + 4, cursorColorR, cursorColorG, cursorColorB);
+	gfx.PutPixel(cursorX, cursorY + 3, cursorColorR, cursorColorG, cursorColorB);
+	
+}
 
-	if (switchCursor)
-	{
-		gfx.PutPixel(cursorX - 5, cursorY - 5, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX - 4, cursorY - 5, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX - 5, cursorY - 4, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX + 5, cursorY + 5, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX + 4, cursorY + 5, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX + 5, cursorY + 4, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX - 5, cursorY + 5, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX - 5, cursorY + 4, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX - 4, cursorY + 5, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX + 5, cursorY - 5, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX + 5, cursorY - 4, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX + 4, cursorY - 5, cursorColorR, cursorColorG, cursorColorB);
-	}
-
-	else
-	{
-		gfx.PutPixel(cursorX - 5, cursorY, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX - 4, cursorY, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX - 3, cursorY, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX + 5, cursorY, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX + 4, cursorY, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX + 3, cursorY, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX, cursorY - 5, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX, cursorY - 4, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX, cursorY - 3, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX, cursorY + 5, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX, cursorY + 4, cursorColorR, cursorColorG, cursorColorB);
-		gfx.PutPixel(cursorX, cursorY + 3, cursorColorR, cursorColorG, cursorColorB);
-	}
+void Game::DrawTarget()
+{
+	gfx.PutPixel(targetX - 5, targetY - 5, 255, 255, 255);
+	gfx.PutPixel(targetX - 4, targetY - 5, 255, 255, 255);
+	gfx.PutPixel(targetX - 5, targetY - 4, 255, 255, 255);
+	gfx.PutPixel(targetX + 5, targetY + 5, 255, 255, 255);
+	gfx.PutPixel(targetX + 4, targetY + 5, 255, 255, 255);
+	gfx.PutPixel(targetX + 5, targetY + 4, 255, 255, 255);
+	gfx.PutPixel(targetX - 5, targetY + 5, 255, 255, 255);
+	gfx.PutPixel(targetX - 5, targetY + 4, 255, 255, 255);
+	gfx.PutPixel(targetX - 4, targetY + 5, 255, 255, 255);
+	gfx.PutPixel(targetX + 5, targetY - 5, 255, 255, 255);
+	gfx.PutPixel(targetX + 5, targetY - 4, 255, 255, 255);
+	gfx.PutPixel(targetX + 4, targetY - 5, 255, 255, 255);
 }
 
 void Game::ComposeFrame()
 {
 	DrawCursor();
+	DrawTarget();
 }

@@ -40,7 +40,27 @@ private:
 private:
 	MainWindow& wnd;
 	Graphics gfx;
-	/********************************/
-	/*  User Variables              */
-	/********************************/
+	
+	int cursorX = 400;
+	int cursorY = 300;
+
+	int cursorVelocityX = 0;
+	int cursorVelocityY = 0;
+	int cursorMaxVelocity = 5;
+	
+	int cursorColorR = 255;
+	int cursorColorG = 255;
+	int cursorColorB = 255;
+
+	bool switchCursor = false;
+	bool switchCursorColor = false;
+
+	bool suppressUp = false;
+	bool suppressDown = false;
+	bool suppressLeft = false;
+	bool suppressRight = false;
+
+
+	void MoveCursor();
+	void DrawCursor();
 };

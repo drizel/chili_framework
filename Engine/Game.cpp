@@ -38,8 +38,96 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	MoveCursor();
+}
+
+void Game::MoveCursor()
+{
+	if (wnd.kbd.KeyIsPressed(VK_UP) && cursorVelocityY > -cursorMaxVelocity && suppressUp == false)
+	{
+		cursorVelocityY -= 1;	
+		suppressUp = true;
+	}
+	if (wnd.kbd.KeyIsPressed(VK_DOWN) && cursorVelocityY < cursorMaxVelocity && suppressDown == false)
+	{
+		cursorVelocityY += 1;
+		suppressDown = true;
+	}
+	if (wnd.kbd.KeyIsPressed(VK_LEFT) && cursorVelocityX > -cursorMaxVelocity && suppressLeft == false)
+	{
+		cursorVelocityX -= 1;
+		suppressLeft = true;
+	}
+	if (wnd.kbd.KeyIsPressed(VK_RIGHT) && cursorVelocityX < cursorMaxVelocity && suppressRight == false)
+	{
+		cursorVelocityX += 1;
+		suppressRight = true; 
+	}
+	if (cursorX - 10 <= 1 || cursorX + 10 >= gfx.ScreenWidth) { cursorVelocityX *= -1; }
+	if (cursorY - 10 <= 1 || cursorY + 10 >= gfx.ScreenHeight) { cursorVelocityY *= -1; }
+
+	if (!wnd.kbd.KeyIsPressed(VK_UP)) { suppressUp = false; }
+	if (!wnd.kbd.KeyIsPressed(VK_DOWN)) { suppressDown = false; }
+	if (!wnd.kbd.KeyIsPressed(VK_LEFT)) { suppressLeft = false; }
+	if (!wnd.kbd.KeyIsPressed(VK_RIGHT)) { suppressRight = false; }
+
+	cursorX += cursorVelocityX;
+	cursorY += cursorVelocityY;
+
+	switchCursor = wnd.kbd.KeyIsPressed(VK_CONTROL);
+	switchCursorColor = wnd.kbd.KeyIsPressed(VK_SHIFT);
+	
+}
+
+void Game::DrawCursor()
+{
+	if (switchCursorColor)
+	{
+		cursorColorR = 255;
+		cursorColorB = 0;
+		cursorColorG = 0;
+	}
+	else
+	{
+		cursorColorR = 255;
+		cursorColorB = 255;
+		cursorColorG = 255;
+	}
+
+	if (switchCursor)
+	{
+		gfx.PutPixel(cursorX - 5, cursorY - 5, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX - 4, cursorY - 5, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX - 5, cursorY - 4, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX + 5, cursorY + 5, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX + 4, cursorY + 5, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX + 5, cursorY + 4, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX - 5, cursorY + 5, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX - 5, cursorY + 4, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX - 4, cursorY + 5, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX + 5, cursorY - 5, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX + 5, cursorY - 4, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX + 4, cursorY - 5, cursorColorR, cursorColorG, cursorColorB);
+	}
+
+	else
+	{
+		gfx.PutPixel(cursorX - 5, cursorY, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX - 4, cursorY, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX - 3, cursorY, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX + 5, cursorY, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX + 4, cursorY, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX + 3, cursorY, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX, cursorY - 5, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX, cursorY - 4, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX, cursorY - 3, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX, cursorY + 5, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX, cursorY + 4, cursorColorR, cursorColorG, cursorColorB);
+		gfx.PutPixel(cursorX, cursorY + 3, cursorColorR, cursorColorG, cursorColorB);
+	}
 }
 
 void Game::ComposeFrame()
 {
+	DrawCursor();
 }

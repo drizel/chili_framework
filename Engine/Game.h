@@ -34,9 +34,13 @@ public:
 private:
 	void ComposeFrame();
 	void UpdateModel();
-	/********************************/
-	/*  User Functions              */
-	/********************************/
+	void MoveCursor();
+	void DrawCursor();
+	void DrawBox(int x, int y, int r, int g, int b);
+	void IsColliding(int x, int y, int a, int b);
+
+	void CursorColor(bool collide);
+	
 private:
 	MainWindow& wnd;
 	Graphics gfx;
@@ -44,8 +48,8 @@ private:
 	int cursorX = 400;
 	int cursorY = 300;
 
-	int targetX = 400;
-	int targetY = 300;
+	int boxX = 200;
+	int boxY = 200;
 
 	int cursorVelocityX = 0;
 	int cursorVelocityY = 0;
@@ -55,16 +59,10 @@ private:
 	int cursorColorG = 255;
 	int cursorColorB = 255;
 
-	bool switchCursor = false;
-	bool switchCursorColor = false;
+	bool isColliding = false;
 
 	bool suppressUp = false;
 	bool suppressDown = false;
 	bool suppressLeft = false;
 	bool suppressRight = false;
-
-
-	void MoveCursor();
-	void DrawCursor();
-	void DrawTarget();
 };

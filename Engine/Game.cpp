@@ -38,74 +38,66 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	MoveCursor();
-	IsColliding(cursorX, cursorY, boxX, boxY);
-	CursorColor(isColliding);
+	MovePlayer();
+	IsColliding();
+	OutOfBounds();
 }
 
 void Game::ComposeFrame()
 {
-	DrawCursor();
-	DrawBox(boxX,boxY,255,255,255);
+	DrawPlayer();
+
+	DrawItem(item1X, item1Y, item1ColorR, item1ColorG, item1ColorB);
+	DrawItem(item2X, item2Y, item2ColorR, item2ColorG, item2ColorB);
+	DrawItem(item3X, item3Y, item3ColorR, item3ColorG, item3ColorB);
+	DrawItem(item4X, item4Y, item4ColorR, item4ColorG, item4ColorB);
 }
 
-void Game::MoveCursor()
+void Game::MovePlayer()
 {
-	//Give cursor velocity
-	if (wnd.kbd.KeyIsPressed(VK_UP) && cursorVelocityY > -cursorMaxVelocity && suppressUp == false)
+	if (wnd.kbd.KeyIsPressed(VK_UP))
 	{
-		cursorVelocityY -= 1;	
-		suppressUp = true;
+		playerY -= playerSpeed;
 	}
-	if (wnd.kbd.KeyIsPressed(VK_DOWN) && cursorVelocityY < cursorMaxVelocity && suppressDown == false)
+	if (wnd.kbd.KeyIsPressed(VK_DOWN))
 	{
-		cursorVelocityY += 1;
-		suppressDown = true;
+		playerY += playerSpeed;
 	}
-	if (wnd.kbd.KeyIsPressed(VK_LEFT) && cursorVelocityX > -cursorMaxVelocity && suppressLeft == false)
+	if (wnd.kbd.KeyIsPressed(VK_LEFT))
 	{
-		cursorVelocityX -= 1;
-		suppressLeft = true;
+		playerX -= playerSpeed;
 	}
-	if (wnd.kbd.KeyIsPressed(VK_RIGHT) && cursorVelocityX < cursorMaxVelocity && suppressRight == false)
+	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
 	{
-		cursorVelocityX += 1;
-		suppressRight = true; 
+		playerX += playerSpeed;
 	}
 
-	//Bounce off screen edge
-	if (cursorX - 10 <= 1 || cursorX + 10 >= gfx.ScreenWidth) { cursorVelocityX *= -1; }
-	if (cursorY - 10 <= 1 || cursorY + 10 >= gfx.ScreenHeight) { cursorVelocityY *= -1; }
-
-	//Suppress key input
-	if (!wnd.kbd.KeyIsPressed(VK_UP)) { suppressUp = false; }
-	if (!wnd.kbd.KeyIsPressed(VK_DOWN)) { suppressDown = false; }
-	if (!wnd.kbd.KeyIsPressed(VK_LEFT)) { suppressLeft = false; }
-	if (!wnd.kbd.KeyIsPressed(VK_RIGHT)) { suppressRight = false; }
-
-	//Move the cursor
-	cursorX += cursorVelocityX;
-	cursorY += cursorVelocityY;
+	if (outOfBounds)
+	{
+		playerX = 400;
+		playerY = 300;
+	}
 }
 
-void Game::DrawCursor()
+
+void Game::DrawPlayer()
 {
-	gfx.PutPixel(cursorX - 5, cursorY, cursorColorR, cursorColorG, cursorColorB);
-	gfx.PutPixel(cursorX - 4, cursorY, cursorColorR, cursorColorG, cursorColorB);
-	gfx.PutPixel(cursorX - 3, cursorY, cursorColorR, cursorColorG, cursorColorB);
-	gfx.PutPixel(cursorX + 5, cursorY, cursorColorR, cursorColorG, cursorColorB);
-	gfx.PutPixel(cursorX + 4, cursorY, cursorColorR, cursorColorG, cursorColorB);
-	gfx.PutPixel(cursorX + 3, cursorY, cursorColorR, cursorColorG, cursorColorB);
-	gfx.PutPixel(cursorX, cursorY - 5, cursorColorR, cursorColorG, cursorColorB);
-	gfx.PutPixel(cursorX, cursorY - 4, cursorColorR, cursorColorG, cursorColorB);
-	gfx.PutPixel(cursorX, cursorY - 3, cursorColorR, cursorColorG, cursorColorB);
-	gfx.PutPixel(cursorX, cursorY + 5, cursorColorR, cursorColorG, cursorColorB);
-	gfx.PutPixel(cursorX, cursorY + 4, cursorColorR, cursorColorG, cursorColorB);
-	gfx.PutPixel(cursorX, cursorY + 3, cursorColorR, cursorColorG, cursorColorB);
+	gfx.PutPixel(playerX - 5, playerY, playerColorR, playerColorG, playerColorB);
+	gfx.PutPixel(playerX - 4, playerY, playerColorR, playerColorG, playerColorB);
+	gfx.PutPixel(playerX - 3, playerY, playerColorR, playerColorG, playerColorB);
+	gfx.PutPixel(playerX + 5, playerY, playerColorR, playerColorG, playerColorB);
+	gfx.PutPixel(playerX + 4, playerY, playerColorR, playerColorG, playerColorB);
+	gfx.PutPixel(playerX + 3, playerY, playerColorR, playerColorG, playerColorB);
+	gfx.PutPixel(playerX, playerY - 5, playerColorR, playerColorG, playerColorB);
+	gfx.PutPixel(playerX, playerY - 4, playerColorR, playerColorG, playerColorB);
+	gfx.PutPixel(playerX, playerY - 3, playerColorR, playerColorG, playerColorB);
+	gfx.PutPixel(playerX, playerY + 5, playerColorR, playerColorG, playerColorB);
+	gfx.PutPixel(playerX, playerY + 4, playerColorR, playerColorG, playerColorB);
+	gfx.PutPixel(playerX, playerY + 3, playerColorR, playerColorG, playerColorB);
 	
 }
 
-void Game::DrawBox(int x, int y, int r, int g, int b)
+void Game::DrawItem(int x, int y, int r, int g, int b)
 {
 	gfx.PutPixel(x - 5, y - 5, r, g, b);
 	gfx.PutPixel(x - 4, y - 5, r, g, b);
@@ -121,32 +113,53 @@ void Game::DrawBox(int x, int y, int r, int g, int b)
 	gfx.PutPixel(x + 4, y - 5, r, g, b);
 }
 
-void Game::IsColliding(int x, int y, int a, int b)
+void Game::IsColliding()
 {
-	if ((x + 5 > a - 5) && (x - 5 < a + 5)
-		&& (y + 5 > b - 5) && (y - 5 < b + 5))
+	//penetrating
+	if ((playerX + 3 > item1X - 3) && (playerX - 3 < item1X + 3)
+		&& (playerY + 3 > item1Y - 3) && (playerY - 3 < item1Y + 3))
 	{
 		isColliding = true;
+		item1ColorR = 0;
+		item1ColorG = 0;
+		item1ColorB = 0;
+	}
+	if ((playerX + 3 > item2X - 3) && (playerX - 3 < item2X + 3)
+		&& (playerY + 3 > item2Y - 3) && (playerY - 3 < item2Y + 3))
+	{
+		isColliding = true;
+		item2ColorR = 0;
+		item2ColorG = 0;
+		item2ColorB = 0;
+	}
+	if ((playerX + 3 > item3X - 3) && (playerX - 3 < item3X + 3)
+		&& (playerY + 3 > item3Y - 3) && (playerY - 3 < item3Y + 3))
+	{
+		isColliding = true;
+		item3ColorR = 0;
+		item3ColorG = 0;
+		item3ColorB = 0;
+	}
+	if ((playerX + 3 > item4X - 3) && (playerX - 3 < item4X + 3)
+		&& (playerY + 3 > item4Y - 3) && (playerY - 3 < item4Y + 3))
+	{
+		isColliding = true;
+		item4ColorR = 0;
+		item4ColorG = 0;
+		item4ColorB = 0;
 	}
 	else
 	{ 
-		isColliding = false;
-	}
+		isColliding = false;		
+	}	
 }
 
-void Game::CursorColor(bool collide)
+void Game::OutOfBounds()
 {
-	if (!collide)
-	{
-	cursorColorR = 255;
-	cursorColorB = 255;
-	cursorColorG = 255;
-	}
-	if (collide)
-	{
-	cursorColorR = 255;
-	cursorColorB = 0;
-	cursorColorG = 0;
-	}
+	if (playerX - 6 <= 5) { outOfBounds = true; }
+	else if (playerY - 6 <= 5) { outOfBounds = true; }
+	else if (playerX + 6 >= 795) { outOfBounds = true; }
+	else if (playerY + 5 >= 595) { outOfBounds = true; }
+	else { outOfBounds = false; }
 }
 

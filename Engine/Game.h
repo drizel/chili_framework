@@ -34,35 +34,54 @@ public:
 private:
 	void ComposeFrame();
 	void UpdateModel();
-	void MoveCursor();
-	void DrawCursor();
-	void DrawBox(int x, int y, int r, int g, int b);
-	void IsColliding(int x, int y, int a, int b);
-
-	void CursorColor(bool collide);
+	void MovePlayer();
+	void DrawPlayer();
+	void DrawItem(int x, int y, int r, int g, int b);
+	void IsColliding();
+	void OutOfBounds();
 	
 private:
 	MainWindow& wnd;
 	Graphics gfx;
 	
-	int cursorX = 400;
-	int cursorY = 300;
+	int playerX = gfx.ScreenWidth / 2;
+	int playerY = gfx.ScreenHeight / 2;
 
-	int boxX = 200;
-	int boxY = 200;
+	int item1X = 200;
+	int item1Y = 200;
 
-	int cursorVelocityX = 0;
-	int cursorVelocityY = 0;
-	int cursorMaxVelocity = 5;
+	int item2X = 200;
+	int item2Y = 400;
+
+	int item3X = 600;
+	int item3Y = 200;
+
+	int item4X = 600;
+	int item4Y = 400;
+
+
+	int playerSpeed = 3;
 	
-	int cursorColorR = 255;
-	int cursorColorG = 255;
-	int cursorColorB = 255;
+	int playerColorR = 255;
+	int playerColorG = 255;
+	int playerColorB = 255;
+
+	int item1ColorG = 255;
+	int item1ColorB = 255;
+	int item1ColorR = 255;
+
+	int item2ColorR = 255;
+	int item2ColorG = 255;
+	int item2ColorB = 255;
+
+	int item3ColorR = 255;
+	int item3ColorG = 255;
+	int item3ColorB = 255;
+
+	int item4ColorR = 255;
+	int item4ColorG = 255;
+	int item4ColorB = 255;
 
 	bool isColliding = false;
-
-	bool suppressUp = false;
-	bool suppressDown = false;
-	bool suppressLeft = false;
-	bool suppressRight = false;
+	bool outOfBounds = false;
 };

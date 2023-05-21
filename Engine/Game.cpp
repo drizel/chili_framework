@@ -55,19 +55,19 @@ void Game::ComposeFrame()
 
 void Game::MovePlayer()
 {
-	if (wnd.kbd.KeyIsPressed(VK_UP))
+	if (wnd.kbd.KeyIsPressed(0x57))
 	{
 		playerY -= playerSpeed;
 	}
-	if (wnd.kbd.KeyIsPressed(VK_DOWN))
+	if (wnd.kbd.KeyIsPressed(0x53))
 	{
 		playerY += playerSpeed;
 	}
-	if (wnd.kbd.KeyIsPressed(VK_LEFT))
+	if (wnd.kbd.KeyIsPressed(0x41))
 	{
 		playerX -= playerSpeed;
 	}
-	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
+	if (wnd.kbd.KeyIsPressed(0x44))
 	{
 		playerX += playerSpeed;
 	}
